@@ -3,15 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using NLog;
-using NLog.Targets;
 
 namespace keepfiles
 {
     public class CustomActions
     {
-
-        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
         [CustomAction]
         public static ActionResult CustomAction1(Session session)
@@ -20,7 +16,7 @@ namespace keepfiles
 
             try
             {
-                string installDirectory = session["APPDIR"];
+                string installDirectory = session["APPDIR"]+"\\MoeinSoft";
                 string targetDirectory = installDirectory+"\\moein";
                 session.Log($"come here {installDirectory}");
 

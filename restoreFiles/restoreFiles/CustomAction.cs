@@ -15,7 +15,7 @@ namespace restoreFiles
 
             try
             {
-                string installDirectory = session["APPDIR"];
+                string installDirectory = session["APPDIR"]+"\\MoeinSoft";
                 string targetDirectory = installDirectory + "\\moein";
 
                 session.Log($"come here {installDirectory}");
