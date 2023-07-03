@@ -14,7 +14,7 @@ namespace CopyWholeContent
         {
             try
             {
-                string installDirectory = "e:\\RemoveTest2";
+                string installDirectory = "d:\\temp";
                 string targetDirectory = installDirectory+"\\moeintempfile";
                 List<string> sourceNames = new List<string>();
                 //todo: get the list from a file
@@ -35,16 +35,17 @@ namespace CopyWholeContent
 
 
                 List<string> sourcedirectories = new List<string>();
+                Directory.CreateDirectory(targetDirectory);
                 foreach (string sourceName in sourceNames)
                 {
                     string sourceFolderPath = Path.Combine(installDirectory, sourceName);
-                    if (Path.HasExtension(sourceFolderPath))
+                    if (Path.HasExtension(sourceFolderPath) && File.Exists(sourceFolderPath))
                     {
                         Console.WriteLine($"{sourceFolderPath} has extention!");
                         
                         File.Copy(sourceFolderPath, Path.Combine(targetDirectory, sourceName) , true);
                     }
-                    else
+                    else if (Directory.Exists(sourceFolderPath))
                     {
 
                         Console.WriteLine($"{sourceFolderPath} is a directory!");
