@@ -35,14 +35,17 @@ namespace keepfiles
                     }
                 }
                 List<string> sourcedirectories = new List<string>();
+                Directory.CreateDirectory(targetDirectory);
                 foreach (string sourceName in sourceNames)
                 {
                     string sourceFolderPath = Path.Combine(installDirectory, sourceName);
-                    if (Path.HasExtension(sourceFolderPath))
+                    
+                    if (Path.HasExtension(sourceFolderPath) && File.Exists(sourceFolderPath))
                     {
+
                         File.Copy(sourceFolderPath, Path.Combine(targetDirectory, sourceName), true);
                     }
-                    else
+                    else if (Directory.Exists(sourceFolderPath))
                     {
                         CopyFolder(sourceFolderPath, Path.Combine(targetDirectory, sourceName));
                     }

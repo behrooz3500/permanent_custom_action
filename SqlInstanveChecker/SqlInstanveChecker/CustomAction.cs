@@ -31,20 +31,29 @@ namespace SqlInstanveChecker
 
         private static int InstanceFinder()
         {
-            RegistryKey sqlInstanceKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names");
             int moeinInstances = 0;
-
-            foreach (string subKey in sqlInstanceKey.GetSubKeyNames())
+            try
             {
-                RegistryKey subRegistryKey = sqlInstanceKey.OpenSubKey(subKey);
-                string[] namesList = subRegistryKey.GetValueNames();
-                foreach (string name in namesList)
+                RegistryKey sqlInstanceKey = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Microsoft SQL Server\Instance Names");
+
+                foreach (string subKey in sqlInstanceKey.GetSubKeyNames())
                 {
-                    if (name.ToLower().Contains("moein"))
+                    RegistryKey subRegistryKey = sqlInstanceKey.OpenSubKey(subKey);
+                    string[] namesList = subRegistryKey.GetValueNames();
+                    foreach (string name in namesList)
                     {
-                        moeinInstances++;
+                        if (name.ToLower().Contains("moein"))
+                        {
+                            moeinInstances++;
+                        }
                     }
                 }
+            }
+            catch (System.NullReferenceException) {
+                moeinInstances = 0; 
+            }
+            catch (System.Reflection.TargetInvocationException) {
+                moeinInstances = 0; 
             }
             return moeinInstances; 
         }
