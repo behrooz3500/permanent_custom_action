@@ -20,7 +20,7 @@ namespace SqlInstanveChecker
                 moeinInstance = $"Moein{count}";
             }
 
-            string sqlInstallCommand = $"/norebootchk /qb SECURITYMODE=SQL DISABLENETWORKPROTOCOLS=0 SAPWD=\"arta0@\" INSTANCENAME=\"{moeinInstance}\" ADDLOCAL=SQL_Engine,SQL_Data_Files,SQL_Replication,Client_Components,Connectivity";
+            string sqlInstallCommand = $"/norebootchk /qn SECURITYMODE=SQL DISABLENETWORKPROTOCOLS=0 SAPWD=\"arta0@\" INSTANCENAME=\"{moeinInstance}\" ADDLOCAL=SQL_Engine,SQL_Data_Files,SQL_Replication,Client_Components,Connectivity";
             session["SQL_INSTALL_COMMAND"] = sqlInstallCommand;
             session["SQL_INSTANCE"] = moeinInstance.ToString();
 
@@ -49,11 +49,16 @@ namespace SqlInstanveChecker
                     }
                 }
             }
-            catch (System.NullReferenceException) {
+            catch (System.NullReferenceException ex) {
+                moeinInstances = 0;
+               
+            }
+            catch (System.Reflection.TargetInvocationException ex) {
                 moeinInstances = 0; 
             }
-            catch (System.Reflection.TargetInvocationException) {
-                moeinInstances = 0; 
+            catch (Exception ex)
+            {
+                moeinInstances = 0;
             }
             return moeinInstances; 
         }
