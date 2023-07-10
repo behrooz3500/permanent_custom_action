@@ -44,10 +44,13 @@ namespace keepfiles
                     {
 
                         File.Copy(sourceFolderPath, Path.Combine(targetDirectory, sourceName), true);
+                        session.Log($"keepfiles: {sourceFolderPath} file will be kept!");
+
                     }
                     else if (Directory.Exists(sourceFolderPath))
                     {
                         CopyFolder(sourceFolderPath, Path.Combine(targetDirectory, sourceName));
+                        session.Log($"keepfiles: {sourceFolderPath} directory will be kept!");
                     }
                 }
 
@@ -56,7 +59,7 @@ namespace keepfiles
             }
             catch (Exception ex)
             {
-                session.Log("Exception: "+ ex.Message);
+                session.Log("keepfiles: Exception: "+ ex.Message);
                 return ActionResult.Failure;
             }
         }
