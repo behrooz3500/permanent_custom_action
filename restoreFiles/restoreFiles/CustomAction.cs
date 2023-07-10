@@ -2,6 +2,7 @@ using Microsoft.Deployment.WindowsInstaller;
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace restoreFiles
@@ -17,16 +18,28 @@ namespace restoreFiles
             {
                 string installDirectory = session["APPDIR"]+"\\MoeinSoft";
                 string targetDirectory = installDirectory + "\\moein";
+                string launcherDirectory = installDirectory + "\\Launcher";
 
-                session.Log($"come here {installDirectory}");
+                string removeLauncherCondition = session["REMOVE_LAUNCHER"].ToLower();
+
+                session.Log($"restoreFiles: Restoring started from {installDirectory}");
                 CopyFolder(targetDirectory, Path.Combine(installDirectory));
+                session.Log(msg:"restoreFiles: Restoring files finished successfully!");
 
                 Directory.Delete(targetDirectory, true );
+                session.Log(msg: "restoreFiles: Temp directory deleted.");
+
+                if (removeLauncherCondition.Contains("yes"))
+                {
+                    Directory.Delete(launcherDirectory, recursive: true);
+                    session.Log(msg: "restoreFiles: Launcher directory deleted.");
+                }
+
                 return ActionResult.Success;
             }
             catch (Exception ex)
             {
-                session.Log("Exception: " + ex.Message);
+                session.Log(msg: "restoreFiles: Exception: " + ex.Message);
                 return ActionResult.Failure;
             }
         }
